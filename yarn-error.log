@@ -1,0 +1,36 @@
+Arguments: 
+  /home/gnwzkd/.nvm/versions/node/v10.15.3/bin/node /home/gnwzkd/.nvm/versions/node/v10.15.3/bin/yarn init
+
+PATH: 
+  /home/gnwzkd/.gvm/pkgsets/go1.12.6/global/bin:/home/gnwzkd/.gvm/gos/go1.12.6/bin:/home/gnwzkd/.gvm/pkgsets/go1.12.6/global/overlay/bin:/home/gnwzkd/.gvm/bin:/home/gnwzkd/.gvm/bin:/home/gnwzkd/.nvm/versions/node/v10.15.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.15.2
+
+Node version: 
+  10.15.3
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/home/gnwzkd/.nvm/versions/node/v10.15.3/lib/node_modules/yarn/lib/cli.js:125801:13)
+      at Interface.emit (events.js:189:13)
+      at Interface._ttyWrite (readline.js:783:16)
+      at ReadStream.onkeypress (readline.js:168:10)
+      at ReadStream.emit (events.js:189:13)
+      at emitKeys (internal/readline.js:424:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1022:36)
+      at ReadStream.emit (events.js:189:13)
+      at addChunk (_stream_readable.js:284:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

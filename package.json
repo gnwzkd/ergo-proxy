@@ -1,0 +1,16 @@
+{
+  "name": "ergo-proxy",
+  "version": "0.0.1",
+  "description": "二狗代理，基于 WebSocket 的 Web 反向代理。",
+  "main": "index.js",
+  "repository": "https://github.com/gnwzkd/ergo-proxy.git",
+  "author": "Nyan Kusanagi <gnwzkd@gmail.com>",
+  "license": "WTFPL",
+  "private": false,
+  "dependencies": {
+    "commander": "^2.20.0",
+    "http": "^0.0.0",
+    "http-proxy": "^1.17.0",
+    "socket.io": "^2.2.0"
+  }
+}
