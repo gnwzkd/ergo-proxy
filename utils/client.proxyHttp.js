@@ -2,7 +2,7 @@ const http = require('http');
 const { parseResponse } = require('./common.message');
 
 module.exports = async (req, config) => {
-    const { method, url, headers, body } = req;
+    const { id, method, url, headers, body } = req;
 
     return new Promise((resolve, reject) => {
         const request = http.request({
@@ -12,7 +12,9 @@ module.exports = async (req, config) => {
             method,
             headers
         }, async res => {
-            resolve(await parseResponse(res));
+            const parsedResponse = await parseResponse(res);
+            parsedResponse.id = id;
+            resolve(parsedResponse);
         }).on('error', e => reject(e));
 
         request.write(body);

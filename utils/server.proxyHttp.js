@@ -1,3 +1,4 @@
+const uuid = require('uuid');
 const session = require('./server.session');
 const url = require('url');
 const { parseRequest } = require('./common.message');
@@ -24,13 +25,16 @@ module.exports = async (req, res) => {
         return;
     }
 
+    const reqId = uuid();
+    parsedRequest.id = reqId;
     socket.emit('server request', parsedRequest);
 
-    socket.once('client response', response => {
-        res.statusCode = response.statusCode;
-        res.statusMessage = response.statusMessage;
-        Object.keys(response.headers).forEach(key => res.setHeader(key, response.headers[key]));
+    const responseHandle = response => {
+        if (response.id !== reqId) return;
+        res.writeHead(response.statusCode, response.statusMessage, response.headers);
         res.write(response.body);
         res.end();
-    });
+        socket.removeListener('client response', responseHandle);
+    };
+    socket.on('client response', responseHandle);
 };
