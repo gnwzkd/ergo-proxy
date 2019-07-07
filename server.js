@@ -6,7 +6,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const md5 = require('md5');
 
-const server = config => {
+module.exports = config => {
     const token = md5(config.token);
 
     const server = http.createServer(forwardHttp);
