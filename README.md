@@ -12,6 +12,14 @@
 
 ## 使用
 
+- 使用之前
+
+  ```shell
+  $ npm install
+  # or
+  $ yarn
+  ```
+  
 - 服务端
 
   ```shell
