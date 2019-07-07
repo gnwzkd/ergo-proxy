@@ -21,4 +21,4 @@ const penddingRequest = {
     }
 };
 
-module.exports = penddingRequests;
+module.exports = penddingRequest;
