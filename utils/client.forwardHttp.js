@@ -1,14 +1,17 @@
 const http = require('http');
+const https = require('https');
 const { parseResponse } = require('./common.message');
+const whatProto = key => (({ http, https })[key] || http);
 
 module.exports = async (proxyReq, config) => {
-    const { id, method, url, headers, body } = proxyReq;
+    const { id, method, url: path, headers, body } = proxyReq;
+    const { localProtocol: protocol, localAddr: hostname, localPort: port } = config;
 
     return new Promise((resolve, reject) => {
-        const request = http.request({
-            host: config.localAddr,
-            port: config.localPort,
-            path: url,
+        const request = (whatProto(protocol)).request({
+            hostname,
+            port,
+            path,
             method,
             headers
         }, async res => {
