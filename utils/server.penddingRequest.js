@@ -1,13 +1,13 @@
 const penddingRequests = {};
 
-module.exports = {
+const penddingRequest = {
     get: id => penddingRequests[id],
     add: (id, res) => penddingRequests[id] = res,
     remove: id => delete penddingRequests[id],
     resolve(proxyRes) {
         // client.parsedResponse => proxyRes
         const { id } = proxyRes;
-        const res = this.get(id);
+        const res = penddingRequest.get(id);
         if (res) return;
         if (proxyRes.statusCode) {
             res.writeHead(proxyRes.statusCode, proxyRes.statusMessage, proxyRes.headers);
@@ -17,6 +17,8 @@ module.exports = {
             res.writeHead(521, 'Web server is down');
         }
         res.end();
-        this.remove(id);
+        penddingRequest.remove(id);
     }
 };
+
+module.exports = penddingRequests;
