@@ -1,10 +1,15 @@
 const url = require('url');
 const session = require('./utils/server.session');
-const proxyHttp = require('./utils/server.proxyHttp');
-const server = require('http').createServer(proxyHttp);
+const forwardHttp = require('./utils/server.forwardHttp');
+const { resolve: resolvePenddingRequest } = require('./utils/server.penddingRequest');
+const http = require('http');
 const socketIO = require('socket.io');
+const md5 = require('md5');
 
 module.exports = config => {
+    const token = md5(config.token);
+
+    const server = http.createServer(forwardHttp);
     const io = socketIO(server, { path: config.path, serveClient: false });
 
     server.listen({ host: config.listen, port: config.port }, () => {
@@ -18,7 +23,7 @@ module.exports = config => {
             return next(new Error('invalid domain'));
         }
         // token 验证
-        if (socket.handshake.query.token !== config.token) {
+        if (socket.handshake.query.token !== token) {
             return next(new Error('authentication error'));
         }
         return next();
@@ -26,9 +31,7 @@ module.exports = config => {
 
     io.on('connection', socket => {
         const domains = socket.handshake.query.domains.split(',');
-        console.time('getDomains');
         const servedDomains = session.getDomains();
-        console.timeEnd('getDomains');
         let exitDomains = [];
         // 域名查重
         domains.forEach(domain => {
@@ -37,26 +40,24 @@ module.exports = config => {
             }
         });
         if (exitDomains.length) {
-            socket.emit('info', `domain ${exitDomains.join(', ')} exited.`);
+            let info = `domain ${exitDomains.join(', ')} exited.`;
+            socket.emit('info', info);
             socket.disconnect(true);
             return;
         }
 
         // 添加会话
-        console.time('addSession');
         session.addSession({
             socket,
             domains
         });
-        console.timeEnd('addSession');
 
-        // socket.on('send', data => console.log(data));
+        // 客户端响应时回复请求
+        socket.on('client response', resolvePenddingRequest);
 
         // 断开连接删除会话
         socket.on('disconnect', reason => {
-            console.time('removeSession');
             session.removeSession(socket.id);
-            console.timeEnd('removeSession');
         });
     });
 };
