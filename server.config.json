@@ -1,7 +1,7 @@
 {
     "parked": "a.test.com",
     "listen": "127.0.0.1",
-    "port": "7676",
+    "port": 7676,
     "path": "/ergouConnecting",
     "token": "7a081dea-e342-495e-9108-9e0f3b791d77"
 }

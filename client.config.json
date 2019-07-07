@@ -1,11 +1,11 @@
 {
     "serverAddr": "a.test.com",
-    "serverPort": 443,
+    "serverPort": 7676,
     "path": "/ergouConnecting",
-    "ssl": true,
+    "ssl": false,
     "token": "7a081dea-e342-495e-9108-9e0f3b791d77",
     "localAddr": "127.0.0.1",
-    "localPort": 443,
-    "localProtocol": "https",
+    "localPort": 8087,
+    "localProtocol": "http",
     "domains": ["a.test.com", "b.test.com", "c.test.com"]
 }

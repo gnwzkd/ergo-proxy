@@ -8,7 +8,9 @@ const penddingRequest = {
         // client.parsedResponse => proxyRes
         const { id } = proxyRes;
         const res = penddingRequest.get(id);
-        if (res) return;
+
+        if (!res) return;
+        
         if (proxyRes.statusCode) {
             res.writeHead(proxyRes.statusCode, proxyRes.statusMessage, proxyRes.headers);
             res.write(proxyRes.body);

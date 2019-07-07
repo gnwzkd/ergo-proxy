@@ -1,14 +1,14 @@
 const url = require('url');
 const session = require('./utils/server.session');
+const http = require('http');
 const forwardHttp = require('./utils/server.forwardHttp');
 const { resolve: resolvePenddingRequest } = require('./utils/server.penddingRequest');
-const http = require('http');
 const socketIO = require('socket.io');
 const md5 = require('md5');
 
 module.exports = config => {
     const token = md5(config.token);
-
+    
     const server = http.createServer(forwardHttp);
     const io = socketIO(server, { path: config.path, serveClient: false });
 
@@ -30,6 +30,7 @@ module.exports = config => {
     });
 
     io.on('connection', socket => {
+        console.log('client connected');
         const domains = socket.handshake.query.domains.split(',');
         const servedDomains = session.getDomains();
         let exitDomains = [];
@@ -40,8 +41,7 @@ module.exports = config => {
             }
         });
         if (exitDomains.length) {
-            let info = `domain ${exitDomains.join(', ')} exited.`;
-            socket.emit('info', info);
+            socket.emit('info', `domain ${exitDomains.join(', ')} exited.`);
             socket.disconnect(true);
             return;
         }
@@ -57,6 +57,7 @@ module.exports = config => {
 
         // 断开连接删除会话
         socket.on('disconnect', reason => {
+            console.log('client disconnected');
             session.removeSession(socket.id);
         });
     });
