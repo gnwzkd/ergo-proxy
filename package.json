@@ -7,6 +7,10 @@
   "author": "Nyan Kusanagi <gnwzkd@gmail.com>",
   "license": "WTFPL",
   "private": false,
+  "scripts": {
+    "client": "pm2 start --name ergoClient index.js -- client",
+    "server": "pm2 start --name ergoServer index.js -- server"
+  },
   "dependencies": {
     "commander": "^2.20.0",
     "http": "^0.0.0",
@@ -14,5 +18,8 @@
     "md5": "^2.2.1",
     "socket.io": "^2.2.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "pm2": "^3.5.1"
   }
 }
