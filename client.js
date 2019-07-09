@@ -31,4 +31,9 @@ module.exports = config => {
     });
 
     socket.on('info', info => console.log(info));
+
+    socket.on('disconnect', () => setTimeout(() => {
+        console.log('server disconnected, reconnecting...')
+        socket.open();
+    }, 10000));
 };
